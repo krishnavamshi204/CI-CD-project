@@ -10,6 +10,7 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
+
 - task: UsePythonVersion@0
   inputs:
     versionSpec: '3.x'
@@ -17,3 +18,13 @@ steps:
 - script: |
     python app.py
   displayName: 'Run Python App'
+
+- task: Docker@2
+  displayName: 'Build and Push Docker Image'
+  inputs:
+    containerRegistry: 'dockerhub-connection'
+    repository: 'vamshikathi22/ci-cd-app'
+    command: 'buildAndPush'
+    Dockerfile: '**/Dockerfile'
+    tags: |
+      latest
